@@ -4,6 +4,8 @@ app = Flask(__name__)
 
 @app.route("/nextflight", methods = ['GET', 'POST'])
 def nextflight():
+    if request.method == 'POST' and request.form and request.form.text:
+        return nextflightoffset(request.form.text)
     ret = ""
     for line in flight_info.get_launch():
         ret += line + "\n"
