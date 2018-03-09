@@ -1,1 +1,1 @@
-web: ./startFlask
+web: gunicorn nextflight:app
