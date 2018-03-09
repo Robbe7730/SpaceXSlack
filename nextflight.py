@@ -5,7 +5,7 @@ app = Flask(__name__)
 @app.route("/nextflight", methods = ['GET', 'POST'])
 @app.route("/nextflight/", methods = ['GET', 'POST'])
 def nextflight():
-    print(request.values)
+    print(request.values[])
     print(request.data)
     if request.method == 'POST' and request.values and request.values["text"]:
         return nextflightoffset(request.values["text"])
