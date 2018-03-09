@@ -7,11 +7,11 @@ def nextflight():
     print(request.values)
     print(request.data)
     if request.method == 'POST' and request.values and request.values["text"]:
-        return nextflightoffset(request.values["text"])
+        return inchannel(nextflightoffset(request.values["text"]))
     ret = ""
     for line in flight_info.get_launch():
         ret += line + "\n"
-    return ret
+    return inchannel(ret)
 
 @app.route("/nextflight/<offset>", methods = ['GET', 'POST'])
 def nextflightoffset(offset):
@@ -28,6 +28,9 @@ def nextflightoffset(offset):
     for line in flight_info.get_launch(int(offset)):
         ret += line + "\n"
     return ret
+
+def inchannel(text):
+    return '{"response_type": "in_channel","text":"' + text + '"}'
 
 if __name__ == "__main__":
     app.run()
