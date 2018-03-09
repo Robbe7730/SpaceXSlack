@@ -3,9 +3,10 @@ import flight_info
 app = Flask(__name__)
 
 @app.route("/nextflight", methods = ['GET', 'POST'])
+@app.route("/nextflight/", methods = ['GET', 'POST'])
 def nextflight():
     if request.method == 'POST' and request.form and request.form["text"]:
-        return nextflightoffset(request.form)
+        return nextflightoffset(request.form["text"])
     ret = ""
     for line in flight_info.get_launch():
         ret += line + "\n"
@@ -18,9 +19,9 @@ def nextflightoffset(offset):
         if letter in "0123456789":
             hasnumbers = True
         elif letter != "-":
-            return "Invalid offset\n"
+            return f"Invalid character '{letter}' in offset, offset can only contain numbers or a '-'\n"
     if not hasnumbers:
-        return "Invalid offset\n"
+        return "Invalid offset, offset must be a number\n"
 
     ret = ""
     for line in flight_info.get_launch(int(offset)):

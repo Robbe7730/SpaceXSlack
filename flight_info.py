@@ -67,10 +67,20 @@ def list_to_string(lis, default):
     return default
 
 def get_launch(offset=0):
-    r = requests.get(url='https://api.spacexdata.com/v2/launches/upcoming').json()
+    try:
+        r = requests.get(url='https://api.spacexdata.com/v2/launches/upcoming').json()
+    except Exception as e:
+        yield "An error occured when trying to connect to the api, check the log for details."
+        print(e)
+        return
     if offset < len(r):
         if offset < 0:
-            r = requests.get(url='https://api.spacexdata.com/v2/launches').json()
+            try:
+                r = requests.get(url='https://api.spacexdata.com/v2/launches').json()
+            except:
+                yield "An error occured when trying to connect to the api, check the log for details."
+                print(e)
+                return
         n = r[offset]
         yield (f"This flight is a {n['rocket']['rocket_name']} flight with {get_reused_info(n)}.")
         yield (f"This flight, {get_reuse_attempts(n)} will be recovered.")
