@@ -1,11 +1,11 @@
-from flask import Flask
+from flask import Flask, request
 import flight_info
 app = Flask(__name__)
 
 @app.route("/nextflight", methods = ['GET', 'POST'])
 def nextflight():
-    if request.method == 'POST' and request.form and request.form.text:
-        return nextflightoffset(request.form.text)
+    if request.method == 'POST' and request.form and request.form["text"]:
+        return nextflightoffset(request.form)
     ret = ""
     for line in flight_info.get_launch():
         ret += line + "\n"
