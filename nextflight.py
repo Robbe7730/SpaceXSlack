@@ -2,14 +2,14 @@ from flask import Flask
 import flight_info
 app = Flask(__name__)
 
-@app.route("/nextflight")
+@app.route("/nextflight", methods = ['GET', 'POST'])
 def nextflight():
     ret = ""
     for line in flight_info.get_launch():
         ret += line + "\n"
     return ret
 
-@app.route("/nextflight/<offset>")
+@app.route("/nextflight/<offset>", methods = ['GET', 'POST'])
 def nextflightoffset(offset):
     hasnumbers = False
     for letter in offset:
